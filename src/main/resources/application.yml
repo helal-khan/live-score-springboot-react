@@ -1,6 +1,11 @@
 spring:
   application:
     name: LiveScore
+  h2:
+    console:
+      enabled: true
+  datasource:
+    url: jdbc:h2:mem:testdb
 
 live-score:
   source-url: http://static.cricinfo.com/rss/livescores.xml
