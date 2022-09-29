@@ -1,0 +1,7 @@
+spring:
+  application:
+    name: LiveScore
+
+live-score:
+  source-url: http://static.cricinfo.com/rss/livescores.xml
+  datetime-format: y-MM-d hh:mm:ss a
