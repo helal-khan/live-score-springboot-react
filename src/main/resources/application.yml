@@ -1,6 +1,10 @@
 spring:
   application:
     name: LiveScore
+  jpa:
+    properties:
+      hibernate:
+        format_sql=true:
   h2:
     console:
       enabled: true
@@ -9,4 +13,3 @@ spring:
 
 live-score:
   source-url: http://static.cricinfo.com/rss/livescores.xml
-  datetime-format: y-MM-d hh:mm:ss a

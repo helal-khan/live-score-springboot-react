@@ -7,7 +7,7 @@ import org.springframework.stereotype.Repository;
 import java.util.Optional;
 
 @Repository
-public interface LiveScoreRepository extends JpaRepository<LiveScore, Long> {
+public interface LiveScoreRepository extends JpaRepository<LiveScore, Long>, LiveScoreRepositoryCustom {
 
     Optional<LiveScore> findLiveScoreByLinkAndUri(String link, String uri);
 }
