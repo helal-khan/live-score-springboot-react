@@ -3,6 +3,7 @@ package com.konasl.livescore.scheduler;
 import com.konasl.livescore.configuration.mapper.MapperRegistry;
 import com.konasl.livescore.entity.LiveScore;
 import com.konasl.livescore.service.LiveScoreService;
+import com.konasl.livescore.util.AppConstants;
 import com.rometools.rome.feed.synd.SyndEntry;
 import com.rometools.rome.feed.synd.SyndFeed;
 import com.rometools.rome.io.SyndFeedInput;
@@ -26,10 +27,9 @@ public class ScheduledTasks {
 
     @Value("${live-score.source-url}")
     private String LIVE_SCORE_URL;
-    private static final String DATE_TIME_FORMAT = "y-MM-d hh:mm:ss a";
     private final MapperRegistry mapperRegistry;
     private final LiveScoreService liveScoreService;
-    private static final DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern(DATE_TIME_FORMAT);
+    private static final DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern(AppConstants.DATETIME_FORMAT);
 
     @Scheduled(fixedDelay = 1000 * 60 * 5) //every 5 min interval
     public void fetchLiveScores() {

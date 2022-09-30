@@ -2,10 +2,7 @@ package com.konasl.livescore.entity;
 
 import lombok.*;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 import static javax.persistence.GenerationType.IDENTITY;
 
@@ -15,7 +12,13 @@ import static javax.persistence.GenerationType.IDENTITY;
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper = true)
 @Entity
-@Table(name = "live_scores")
+@Table(
+        name = "live_scores",
+        uniqueConstraints = {
+                @UniqueConstraint(columnNames = "link", name = "uc_live_scores_link"),
+                @UniqueConstraint(columnNames = "uri", name = "uc_live_scores_uri")
+        }
+)
 public class LiveScore extends BaseEntity {
 
     @Id

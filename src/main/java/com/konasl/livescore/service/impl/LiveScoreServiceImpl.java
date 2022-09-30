@@ -23,23 +23,13 @@ public class LiveScoreServiceImpl implements LiveScoreService {
 
     @Override
     public void saveLiveScore(final LiveScore liveScore) {
-        final LiveScore existingLiveScore = liveScoreRepository.findLiveScoreByLinkAndUri(liveScore.getLink(), liveScore.getUri()).orElse(null);
-        if (existingLiveScore != null) {
-            log.info("Updated score :: {}", existingLiveScore.getTitle());
-            liveScore.setId(existingLiveScore.getId());
-            liveScore.setTitle(existingLiveScore.getTitle());
-            liveScore.setDescription(existingLiveScore.getDescription());
-        } else {
-            log.info("New score :: {}", liveScore.getTitle());
-        }
+        log.info("Updated score :: {}", liveScore.getTitle());
+        liveScoreRepository.findLiveScoreByLinkAndUri(liveScore.getLink(), liveScore.getUri()).ifPresent(existingLiveScore -> liveScore.setId(existingLiveScore.getId()));
         liveScoreRepository.save(liveScore);
     }
 
     @Override
     public Page<LiveScoreResponse> findLiveScores(final LiveScoreRequest liveScoreRequest) {
-        return liveScoreRepository.findLiveScores(
-                mapperRegistry.getMapper(LiveScoreRequest.class, LiveScoreQuery.class).map(liveScoreRequest),
-                PageRequest.of(liveScoreRequest.getPageNumber(), liveScoreRequest.getPageSize())
-        ).map(mapperRegistry.getMapper(LiveScore.class, LiveScoreResponse.class)::map);
+        return liveScoreRepository.findLiveScores(mapperRegistry.getMapper(LiveScoreRequest.class, LiveScoreQuery.class).map(liveScoreRequest), PageRequest.of(liveScoreRequest.getPageNumber(), liveScoreRequest.getPageSize())).map(mapperRegistry.getMapper(LiveScore.class, LiveScoreResponse.class)::map);
     }
 }
