@@ -1,0 +1,22 @@
+.buttonContainer {
+  margin-bottom: 0;
+}
+.login-form-forgot {
+  float: right;
+}
+.ant-col-rtl .login-form-forgot {
+  float: left;
+}
+.image-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+@media (max-width: 640px) and (min-width: 50px) {
+  .ant-row-middle {
+    padding: 0 2%;
+  }
+  .ant-layout {
+    background-color: #ededed;
+  }
+}
