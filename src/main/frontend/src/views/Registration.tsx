@@ -33,7 +33,7 @@ const Registration = () => {
   const onFinish = (data: UserDTO) => {
     registration(data).then((response: UserDTO | null) => {
       Notify({
-        type: "error",
+        type: "success",
         message: response?.fullName + ": Registration Successful",
       });
       Storage.deleteData(Constant.REDIRECT_URL_KEY);

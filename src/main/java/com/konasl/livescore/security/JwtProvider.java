@@ -20,9 +20,9 @@ import java.util.Date;
 @RequiredArgsConstructor
 public class JwtProvider {
 
-    @Value("${jwt.secret}")
+    @Value("${live-score.jwt.secret}")
     private String secretKey;
-    @Value("${jwt.expiration}")
+    @Value("${live-score.jwt.expiration}")
     private long validityInMilliseconds;
     private final UserDetailsService userDetailsService;
 
