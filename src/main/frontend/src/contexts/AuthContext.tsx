@@ -13,6 +13,7 @@ interface IAuthContext {
   loggedInUser: UserDTO | null;
   errorMessage: string | null;
   login: (data: LoginDTO) => Promise<void>;
+  registration: (data: UserDTO) => Promise<UserDTO | null>;
   logout: () => Promise<void>;
 }
 
@@ -21,6 +22,7 @@ const AuthContext = React.createContext<IAuthContext>({
   loggedInUser: null,
   errorMessage: null,
   login: () => Promise.resolve(),
+  registration: () => Promise.resolve(null),
   logout: () => Promise.resolve(),
 });
 export const useAuthContext = () => React.useContext(AuthContext);
@@ -56,6 +58,25 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     });
   };
 
+  const registration = (data: UserDTO) => {
+    return new Promise<UserDTO>((resolve) => {
+      setLoading(true);
+      Backend.Auth.registration(data)
+        .then((response) => {
+          setLoading(false);
+          resolve(response.data);
+        })
+        .catch((error: AxiosError) => {
+          console.log(error);
+          Notify({
+            type: "error",
+            message: error.response?.data.message,
+            description: error.response?.data.errors.join(","),
+          });
+        });
+    });
+  };
+
   const logout = () => {
     return new Promise<void>((resolve) => {
       Storage.deleteData(Constant.TOKEN_KEY);
@@ -67,7 +88,14 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
   return (
     <AuthContext.Provider
-      value={{ loading, errorMessage, loggedInUser, login, logout }}
+      value={{
+        loading,
+        errorMessage,
+        loggedInUser,
+        login,
+        registration,
+        logout,
+      }}
     >
       {children}
     </AuthContext.Provider>

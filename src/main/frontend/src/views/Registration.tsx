@@ -5,13 +5,13 @@ import "../assets/styles/pages/login.css";
 import { useAuthContext } from "../contexts/AuthContext";
 import Constant from "../config/Constant";
 import Storage from "../config/Storage";
-import LoginDTO from "../dtos/LoginDTO";
 import Page from "../components/Page";
 import Notify from "../components/Notify";
+import UserDTO from "../dtos/UserDTO";
 
 const Registration = () => {
   const history = useHistory();
-  const { loggedInUser, login } = useAuthContext();
+  const { loggedInUser, registration } = useAuthContext();
 
   React.useEffect(() => {
     if (loggedInUser) {
@@ -30,11 +30,14 @@ const Registration = () => {
     // eslint-disable-next-line
   }, []);
 
-  const onFinish = (data: LoginDTO) => {
-    login(data).then(() => {
-      const redirectURL = Storage.getData(Constant.REDIRECT_URL_KEY);
+  const onFinish = (data: UserDTO) => {
+    registration(data).then((response: UserDTO | null) => {
+      Notify({
+        type: "error",
+        message: response?.fullName + ": Registration Successful",
+      });
       Storage.deleteData(Constant.REDIRECT_URL_KEY);
-      history.replace(redirectURL || Constant.HOME_URL);
+      history.replace(Constant.AUTH_URL);
     });
   };
 
@@ -54,51 +57,94 @@ const Registration = () => {
                 <span style={{ textAlign: "center", paddingBottom: "20px" }}>
                   <h1>Sign Up</h1>
                 </span>
-                <Form
-                  initialValues={{ rememberMe: false }}
-                  onFinish={onFinish}
-                  autoComplete="off"
-                >
+                <Form layout="vertical" onFinish={onFinish} autoComplete="off">
                   <Form.Item
-                    name="username"
-                    rules={[{ required: true, message: "Username Required" }]}
+                    hasFeedback
+                    name="fullName"
+                    label="FullName"
+                    rules={[{ required: true, message: "FullName Required" }]}
                   >
                     <Input allowClear placeholder="Full Name" />
                   </Form.Item>
 
                   <Form.Item
+                    hasFeedback
                     name="username"
+                    label="Username"
                     rules={[{ required: true, message: "Username Required" }]}
                   >
                     <Input allowClear placeholder="Username" />
                   </Form.Item>
 
                   <Form.Item
+                    hasFeedback
                     name="password"
-                    rules={[{ required: true, message: "Password Required" }]}
+                    label="Password"
+                    rules={[
+                      { required: true, message: "Password Required" },
+                      {
+                        min: 6,
+                        message: "Password must be minimum 6 characters.",
+                      },
+                    ]}
                   >
                     <Input.Password allowClear placeholder="Password" />
                   </Form.Item>
 
                   <Form.Item
-                    name="password"
-                    rules={[{ required: true, message: "Password Required" }]}
+                    hasFeedback
+                    name="confirmPassword"
+                    label="Confirm password"
+                    rules={[
+                      {
+                        required: true,
+                        message: "Confirm password Required",
+                      },
+                      ({ getFieldValue }) => ({
+                        validator(_, value) {
+                          if (!value || getFieldValue("password") === value) {
+                            return Promise.resolve();
+                          }
+                          return Promise.reject("Confirm password mismatch");
+                        },
+                      }),
+                    ]}
                   >
                     <Input.Password allowClear placeholder="Confirm Password" />
                   </Form.Item>
 
                   <Form.Item
-                    name="username"
-                    rules={[{ required: true, message: "Username Required" }]}
+                    hasFeedback
+                    name="email"
+                    label="Email"
+                    rules={[
+                      {
+                        type: "email",
+                        message: "Please enter a valid email!",
+                      },
+                      { required: true, message: "Email Required" },
+                    ]}
                   >
                     <Input allowClear placeholder="Email" />
                   </Form.Item>
 
-                  <Form.Item className="buttonContainer">
-                    <Button type="primary" block htmlType="submit">
-                      Sign Up
-                    </Button>
-                  </Form.Item>
+                  <Row gutter={[24, 0]}>
+                    <Col span={12}>
+                      <Form.Item label=" ">
+                        <Button htmlType="reset" block>
+                          Reset
+                        </Button>
+                      </Form.Item>
+                    </Col>
+                    <Col span={12}>
+                      <Form.Item label=" ">
+                        <Button block type="primary" htmlType="submit">
+                          Sign Up
+                        </Button>
+                      </Form.Item>
+                    </Col>
+                  </Row>
+
                   <Typography
                     style={{ textAlign: "center", marginTop: "15px" }}
                   >

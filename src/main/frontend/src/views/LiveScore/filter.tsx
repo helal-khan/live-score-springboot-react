@@ -20,7 +20,7 @@ export default function LiveScoreFilter() {
           dispatch({ type: "SET_FILTER", payload: data });
           getLiveScoreList({
             ...data,
-            pageNumber: state.pagination.current || 1,
+            pageNumber: 1,
             pageSize: state.pagination.pageSize || 10,
           }).catch((error: AxiosError) =>
             Notify({ type: "error", message: error.response?.data.message })

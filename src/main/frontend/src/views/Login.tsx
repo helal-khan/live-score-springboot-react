@@ -25,7 +25,7 @@ const Login = () => {
       );
       if (invalidSession) {
         Storage.deleteData(Constant.INVALID_SESSION_KEY);
-        Notify({ type: "error", message: "INVALID SESSION" });
+        Notify({ type: "error", message: "Invalid session" });
       }
     }
     // eslint-disable-next-line
@@ -62,6 +62,7 @@ const Login = () => {
                   autoComplete="off"
                 >
                   <Form.Item
+                    hasFeedback
                     name="username"
                     rules={[{ required: true, message: "Username Required" }]}
                   >
@@ -73,6 +74,7 @@ const Login = () => {
                   </Form.Item>
 
                   <Form.Item
+                    hasFeedback
                     name="password"
                     rules={[{ required: true, message: "Password Required" }]}
                   >
