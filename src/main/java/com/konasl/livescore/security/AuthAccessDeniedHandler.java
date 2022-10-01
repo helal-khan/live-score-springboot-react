@@ -25,8 +25,8 @@ public class AuthAccessDeniedHandler implements AccessDeniedHandler {
         ObjectMapper mapper = new ObjectMapper();
         mapper.writeValue(out,
                 ErrorResponse.builder()
-                        .code(HttpStatus.FORBIDDEN.value())
-                        .status(HttpStatus.FORBIDDEN.name())
+                        .code(HttpStatus.FORBIDDEN.name())
+                        .status(HttpStatus.FORBIDDEN.value())
                         .message(accessDeniedException.getMessage())
                         .build()
         );

@@ -27,8 +27,8 @@ public class AuthEntryPoint implements AuthenticationEntryPoint {
         ObjectMapper mapper = new ObjectMapper();
         mapper.writeValue(out,
                 ErrorResponse.builder()
-                        .code(HttpStatus.UNAUTHORIZED.value())
-                        .status(HttpStatus.UNAUTHORIZED.name())
+                        .code(HttpStatus.UNAUTHORIZED.name())
+                        .status(HttpStatus.UNAUTHORIZED.value())
                         .message(authException.getMessage())
                         .errors(List.of(AppConstants.UNAUTHORIZED_ERROR_MESSAGE))
                         .build()

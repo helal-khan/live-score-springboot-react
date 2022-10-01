@@ -25,7 +25,7 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping("api/auth")
 @RequiredArgsConstructor
-public class UserController {
+public class AuthController {
 
     private final UserValidator userValidator;
     private final AuthValidator authValidator;

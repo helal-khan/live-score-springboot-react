@@ -1,55 +1,73 @@
-import React from 'react';
-import 'antd/dist/antd.min.css';
-import './assets/styles/main.css';
-import { Button, Checkbox, Form, Input } from 'antd';
+import React from "react";
+import axios, { AxiosError, AxiosRequestConfig, AxiosResponse } from "axios";
+import { BrowserRouter, useLocation } from "react-router-dom";
+import "antd/dist/antd.css";
+import "./assets/styles/main.css";
+import Constant from "./config/Constant";
+import Storage from "./config/Storage";
+import { AuthProvider } from "./contexts/AuthContext";
+import RenderRoutes from "./components/RenderRoutes";
+import routes from "./config/routes";
+import Notify from "./components/Notify";
 
+//axios config
+(() => {
+  axios.defaults.timeout = 60 * 1000;
+  axios.defaults.headers.common = { Accept: "application/json" };
 
-function App() {
-    const onFinish = (values: any) => {
-        console.log('Success:', values);
-    };
-
-    const onFinishFailed = (errorInfo: any) => {
-        console.log('Failed:', errorInfo);
-    };
-
-  return (
-      <Form
-          name="basic"
-          labelCol={{ span: 8 }}
-          wrapperCol={{ span: 16 }}
-          initialValues={{ remember: true }}
-          onFinish={onFinish}
-          onFinishFailed={onFinishFailed}
-          autoComplete="off"
-      >
-          <Form.Item
-              label="Username"
-              name="username"
-              rules={[{ required: true, message: 'Please input your username!' }]}
-          >
-              <Input />
-          </Form.Item>
-
-          <Form.Item
-              label="Password"
-              name="password"
-              rules={[{ required: true, message: 'Please input your password!' }]}
-          >
-              <Input.Password />
-          </Form.Item>
-
-          <Form.Item name="remember" valuePropName="checked" wrapperCol={{ offset: 8, span: 16 }}>
-              <Checkbox>Remember me</Checkbox>
-          </Form.Item>
-
-          <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
-              <Button type="primary" htmlType="submit">
-                  Submit
-              </Button>
-          </Form.Item>
-      </Form>
+  axios.interceptors.request.use((requestConfig: AxiosRequestConfig) => {
+    const token = Storage.getData(Constant.TOKEN_KEY);
+    if (token) {
+      requestConfig.headers = {
+        ...requestConfig.headers,
+        Authorization: "Bearer " + token,
+      };
+    }
+    return requestConfig;
+  });
+  axios.interceptors.response.use(
+    (response: AxiosResponse) => response,
+    (error: AxiosError) => {
+      if (
+        error.response?.status === 401 &&
+        !window.location.href.includes(Constant.AUTH_URL)
+      ) {
+        Storage.deleteData(Constant.TOKEN_KEY);
+        Storage.deleteData(Constant.USER_KEY);
+        Storage.setData(Constant.INVALID_SESSION_KEY, true);
+        Storage.setData(Constant.REDIRECT_URL_KEY, window.location.pathname);
+        window.location.href = Constant.AUTH_URL;
+      }
+      return Promise.reject(error);
+    }
   );
-}
+})();
+//online status
+(() => {
+  window.addEventListener("online", () =>
+    Notify({ type: "success", message: "CONNECTION AVAILABLE NOW" })
+  );
+  window.addEventListener("offline", () =>
+    Notify({ type: "error", message: "NO INTERNET CONNECTION" })
+  );
+})();
 
+const ScrollToTop = () => {
+  const location = useLocation();
+
+  React.useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [location.pathname]);
+
+  return null;
+};
+
+const App = () => (
+  <AuthProvider>
+    <BrowserRouter>
+      <ScrollToTop />
+      <RenderRoutes routes={routes} />
+    </BrowserRouter>
+  </AuthProvider>
+);
 export default App;

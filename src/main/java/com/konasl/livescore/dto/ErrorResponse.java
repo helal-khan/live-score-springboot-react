@@ -12,8 +12,8 @@ import java.util.List;
 @NoArgsConstructor
 @Builder
 public class ErrorResponse {
-    private int code;
-    private String status;
+    private String code;
+    private int status;
     private String message;
     private List<String> errors;
 }

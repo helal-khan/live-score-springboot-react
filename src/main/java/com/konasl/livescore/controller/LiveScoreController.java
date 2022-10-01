@@ -19,7 +19,7 @@ public class LiveScoreController {
 
     private final LiveScoreService liveScoreService;
 
-    @PostMapping(value = "/page", produces = APPLICATION_JSON_VALUE)
+    @PostMapping(value = "/list", produces = APPLICATION_JSON_VALUE)
     public Page<LiveScoreResponse> findLiveScores(@RequestBody LiveScoreRequest liveScoreRequest) {
         return liveScoreService.findLiveScores(liveScoreRequest);
     }

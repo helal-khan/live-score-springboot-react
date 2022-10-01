@@ -36,7 +36,7 @@ public class AppExceptionHandler {
         return ResponseEntity
                 .status(status)
                 .contentType(MediaType.APPLICATION_JSON)
-                .body(ErrorResponse.builder().code(status.value()).status(notFoundErrorCodes.get(ex.getClazz()).name()).message(ex.getMessage()).build());
+                .body(ErrorResponse.builder().status(status.value()).code(notFoundErrorCodes.get(ex.getClazz()).name()).message(ex.getMessage()).build());
 
     }
 
@@ -46,7 +46,7 @@ public class AppExceptionHandler {
         return ResponseEntity
                 .status(status)
                 .contentType(MediaType.APPLICATION_JSON)
-                .body(ErrorResponse.builder().code(status.value()).status(status.name()).message(ex.getMessage()).build());
+                .body(ErrorResponse.builder().status(status.value()).code(status.name()).message(ex.getMessage()).build());
     }
 
     @ExceptionHandler(GlobalValidationException.class)
@@ -56,8 +56,8 @@ public class AppExceptionHandler {
                 .status(status)
                 .contentType(MediaType.APPLICATION_JSON)
                 .body(ErrorResponse.builder()
-                        .code(status.value())
-                        .status(status.name())
+                        .status(status.value())
+                        .code(status.name())
                         .message(AppConstants.VALIDATION_ERROR_MESSAGE)
                         .errors(Arrays.asList(ex.getMessage().split("˜")))
                         .build());
@@ -71,8 +71,8 @@ public class AppExceptionHandler {
                 .status(status)
                 .contentType(MediaType.APPLICATION_JSON)
                 .body(ErrorResponse.builder()
-                        .code(status.value())
-                        .status(status.name())
+                        .status(status.value())
+                        .code(status.name())
                         .message(ex.getMessage())
                         .build());
     }
@@ -84,8 +84,8 @@ public class AppExceptionHandler {
                 .status(status)
                 .contentType(MediaType.APPLICATION_JSON)
                 .body(ErrorResponse.builder()
-                        .code(status.value())
-                        .status(status.name())
+                        .status(status.value())
+                        .code(status.name())
                         .message(ex.getMessage())
                         .build());
     }
@@ -97,8 +97,8 @@ public class AppExceptionHandler {
                 .status(status)
                 .contentType(MediaType.APPLICATION_JSON)
                 .body(ErrorResponse.builder()
-                        .code(status.value())
-                        .status(status.name())
+                        .status(status.value())
+                        .code(status.name())
                         .message(ex.getMessage())
                         .build());
     }
