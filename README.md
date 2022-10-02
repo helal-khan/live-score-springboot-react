@@ -34,13 +34,12 @@ mvn spring-boot:run
 
 1. A scheduler service parse data from an XML source after every
    5 minutes.
-2. Persist all the live records into a MySQL Database.
-   Duplicate data must not be inserted into the database.
+2. Persist all the live records into the MySQL Database. Duplicate data must not be inserted.
 3. In a single dashboard(Table) shows latest scores from Database.
-4. There will be a search option where users will be able to search any keyword to find any specific news of cricket.
-5. User will be able to view this Dashboard if he/ she are logged in.
+4. There is a search option where users are able to search any keyword to find any specific news of cricket.
+5. Users are able to view this Dashboard if he/ she are logged in.
 6. If user not logged in then, shows a Login Page and user will not be able to view this Dashboard page.
-7. User can register by himself from Registration Page and get access to view latest scores.
+7. User can register by himself from Registration Page and get an access to view latest scores.
 
 
 ## Author
