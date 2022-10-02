@@ -19,7 +19,7 @@
 ## Instruction to run the project
 
 1. Clone https://github.com/helal-khan/live-score-springboot-react.git and open it your favorite IDE. I use IntelliJ IDEA.
-2. Create a mysql database (live_score) and change (DB name, Username, Password) accordingly in application.yml file
+2. Create a mysql database (live_score) and change (DB name, Username, Password) accordingly in application.yml file.
 3. Run the below command to install maven project. (It may takes few times to install frontend project as well)
 ```bash
 mvn install
@@ -28,6 +28,8 @@ mvn install
 ```bash
 mvn spring-boot:run
 ```
+5. If the project is running successfully, then go to following link.
+[http://localhost:8080](http://localhost:8080)
 
 
 ## Feature Completed
