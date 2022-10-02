@@ -1,7 +1,10 @@
 package com.konasl.livescore.service.impl;
 
 import com.konasl.livescore.configuration.mapper.MapperRegistry;
-import com.konasl.livescore.dto.*;
+import com.konasl.livescore.dto.AuthRequest;
+import com.konasl.livescore.dto.AuthResponse;
+import com.konasl.livescore.dto.UserRequest;
+import com.konasl.livescore.dto.UserResponse;
 import com.konasl.livescore.entity.User;
 import com.konasl.livescore.repository.UserRepository;
 import com.konasl.livescore.security.JwtProvider;
@@ -46,7 +49,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserResponse registration(final UserRequest authRequest) {
+    public UserResponse registration(UserRequest authRequest) {
         return mapperRegistry.getMapper(User.class, UserResponse.class).map(
                 userRepository.save(mapperRegistry.getMapper(UserRequest.class, User.class).map(authRequest))
         );

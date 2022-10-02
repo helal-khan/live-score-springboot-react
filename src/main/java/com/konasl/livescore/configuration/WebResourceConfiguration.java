@@ -13,6 +13,5 @@ public class WebResourceConfiguration implements WebMvcConfigurer {
     public void addViewControllers(ViewControllerRegistry registry) {
         registry.addViewController("/").setViewName("forward:/index.html");
         registry.addViewController("/{path:[^\\.]*}").setViewName("forward:/index.html");
-        registry.addViewController("/**/{path:[^\\.]*}").setViewName("forward:/index.html");
     }
 }

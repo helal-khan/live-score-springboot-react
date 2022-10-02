@@ -63,17 +63,16 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       setLoading(true);
       Backend.Auth.registration(data)
         .then((response) => {
-          setLoading(false);
           resolve(response.data);
         })
         .catch((error: AxiosError) => {
-          console.log(error);
           Notify({
             type: "error",
             message: error.response?.data.message,
             description: error.response?.data.errors.join(","),
           });
-        });
+        })
+        .finally(() => setLoading(false));
     });
   };
 
