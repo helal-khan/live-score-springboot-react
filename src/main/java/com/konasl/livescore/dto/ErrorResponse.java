@@ -5,6 +5,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Data
@@ -14,6 +15,9 @@ import java.util.List;
 public class ErrorResponse {
     private String code;
     private int status;
-    private String message;
+    private String errorCode;
+    private String message; // reason
     private List<String> errors;
+    @Builder.Default
+    private LocalDateTime timestamp = LocalDateTime.now();
 }

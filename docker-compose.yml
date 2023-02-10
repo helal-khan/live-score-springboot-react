@@ -1,0 +1,42 @@
+version: '3.7'
+
+services:
+  mysql:
+    container_name: mysql-db
+    image: mysql:8.0
+    environment:
+      - MYSQL_DATABASE=live-score
+      - MYSQL_USER=admin
+      - MYSQL_PASSWORD=admin
+      - MYSQL_ROOT_PASSWORD=adminroot
+    ports:
+      - "3306:3306"
+    restart: always
+    networks:
+      - livescore
+    volumes:
+      - ./my-sql-data:/var/lib/mysql
+
+  livescore:
+    image: livescore
+    container_name: livescore
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    restart: always
+    networks:
+      - livescore
+    depends_on:
+      - mysql
+    environment:
+      - MYSQL_HOST=mysql
+      - MYSQL_USERNAME=admin
+      - MYSQL_PASSWORD=admin
+      - MYSQL_DATABASE=live-score
+      - MYSQL_PORT=3306
+
+networks:
+  livescore:
+    driver: bridge
