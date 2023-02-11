@@ -18,8 +18,8 @@ services:
       - ./my-sql-data:/var/lib/mysql
 
   livescore:
-    image: livescore
-    container_name: livescore
+    image: helalkhan/livescore
+    container_name: helalkhan/livescore
     build:
       context: .
       dockerfile: Dockerfile
