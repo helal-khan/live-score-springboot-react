@@ -18,7 +18,7 @@ services:
       - ./my-sql-data:/var/lib/mysql
 
   livescore:
-    image: helalkhan/livescore
+    image: helalkhan/livescore:latest
     container_name: livescore
     build:
       context: .
