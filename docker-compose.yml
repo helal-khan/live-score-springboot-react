@@ -19,7 +19,7 @@ services:
 
   livescore:
     image: helalkhan/livescore
-    container_name: helalkhan/livescore
+    container_name: livescore
     build:
       context: .
       dockerfile: Dockerfile
